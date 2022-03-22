@@ -9,13 +9,16 @@ public class RoomTemplates : MonoBehaviour {
 	public GameObject[] leftRooms;
 	public GameObject[] rightRooms;
 
-	/* public GameObject closedRoom;
+	public GameObject closedRoom;
 
 	public List<GameObject> rooms;
 
 	public float waitTime;
 	private bool spawnedBoss;
 	public GameObject boss;
+	private int random;
+	public GameObject health;
+	public GameObject ammo;
 
 	void Update(){
 
@@ -25,9 +28,16 @@ public class RoomTemplates : MonoBehaviour {
 					Instantiate(boss, rooms[i].transform.position, Quaternion.identity);
 					spawnedBoss = true;
 				}
+				random = Random.Range(0,10);
+				if(random < 5 && i != rooms.Count-1 && i != 0) {
+					Instantiate(health, rooms[i].transform.position, Quaternion.identity);
+				}
+				if(random > 5 && i != rooms.Count-1 && i != 0) {
+					Instantiate(ammo, rooms[i].transform.position, Quaternion.identity);
+				}
 			}
 		} else {
 			waitTime -= Time.deltaTime;
 		}
-	} */
+	} 
 }
