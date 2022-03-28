@@ -12,7 +12,7 @@ public class Spawner : MonoBehaviour {
 	void Start(){
 		Destroy(gameObject, waitTime);
 		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
-		Invoke("Spawn", 0.2f);
+		Invoke("Spawn", 0.1f);
 	}
 
 
@@ -40,11 +40,13 @@ public class Spawner : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-			// if(other.GetComponent<Spawner>().spawned == false && spawned == false){
+		if(other.CompareTag("Spawner")){
+			if(other.GetComponent<Spawner>().spawned == false && spawned == false){
+				// For some reason doesn't work!
 				// Instantiate(templates.closedRoom, transform.position, Quaternion.identity);
-                if(other.CompareTag("Spawner")) {
-				    Destroy(gameObject);
-                }
-			// spawned = true;
+				Destroy(gameObject);
+			} 
+			spawned = true;
 		}
+	}
 }

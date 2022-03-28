@@ -24,14 +24,21 @@ public class RoomTemplates : MonoBehaviour {
 
 		if(waitTime <= 0 && spawnedBoss == false){
 			for (int i = 0; i < rooms.Count; i++) {
+				if (i < 5) {
+					rooms[i].GetComponent<RoomColour>().canBeVisited = true;
+				}
+
 				if(i == rooms.Count-1){
 					Instantiate(boss, rooms[i].transform.position, Quaternion.identity);
 					spawnedBoss = true;
 				}
+
 				random = Random.Range(0,10);
+
 				if(random < 5 && i != rooms.Count-1 && i != 0) {
 					Instantiate(health, rooms[i].transform.position, Quaternion.identity);
 				}
+
 				if(random > 5 && i != rooms.Count-1 && i != 0) {
 					Instantiate(ammo, rooms[i].transform.position, Quaternion.identity);
 				}
