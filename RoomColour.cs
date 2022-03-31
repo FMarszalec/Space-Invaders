@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RoomColour : MonoBehaviour {
-    bool mouseOver = false;
     public Component[] walls;
     public bool visited = false;
     public bool canBeVisited = false;
@@ -16,7 +15,6 @@ public class RoomColour : MonoBehaviour {
     }
 
     void OnMouseEnter() {
-        mouseOver = true;
         foreach(SpriteRenderer wall in walls) {
             if (canBeVisited) {
                 wall.color = Color.green;
@@ -26,7 +24,6 @@ public class RoomColour : MonoBehaviour {
     }
 
     void OnMouseExit() {
-        mouseOver = false;
         foreach(SpriteRenderer wall in walls) {
             wall.color = Color.white;
         }
