@@ -19,6 +19,7 @@ public class RoomTemplates : MonoBehaviour {
 	private int random;
 	public GameObject health;
 	public GameObject ammo;
+	public GameObject fight;
 
 	void Update(){
 
@@ -26,6 +27,9 @@ public class RoomTemplates : MonoBehaviour {
 			for (int i = 0; i < rooms.Count; i++) {
 				if (i < 5) {
 					rooms[i].GetComponent<RoomColour>().canBeVisited = true;
+					if(i != 0) {
+						Instantiate(fight, rooms[i].transform.position, Quaternion.identity);
+					}
 				}
 
 				if(i == rooms.Count-1){
@@ -35,11 +39,15 @@ public class RoomTemplates : MonoBehaviour {
 
 				random = Random.Range(0,10);
 
-				if(random < 5 && i != rooms.Count-1 && i != 0) {
+				if(random < 2 && i != rooms.Count-1 && i >=5) {
 					Instantiate(health, rooms[i].transform.position, Quaternion.identity);
 				}
 
-				if(random > 5 && i != rooms.Count-1 && i != 0) {
+				if(random >= 2 && random <= 6 && i != rooms.Count-1 && i >= 5) {
+					Instantiate(fight, rooms[i].transform.position, Quaternion.identity);
+				}
+
+				if(random > 6 && i != rooms.Count-1 && i >= 5) {
 					Instantiate(ammo, rooms[i].transform.position, Quaternion.identity);
 				}
 			}
