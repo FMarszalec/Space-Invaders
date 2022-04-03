@@ -17,9 +17,9 @@ public class PlayerMarker : MonoBehaviour {
     private float distance; 
 
     void Start() {
-        // target = GameManager.targetManager;
         transform.position = GameManager.targetManager;
         previousPosition = GameManager.previousPositionManager;
+        GameManager.currentFuel += (int) GameManager.distanceTraveledManager;
         this.displayMaxFuel.text = maxFuel.ToString(); // this is just for testing now
         this.displayMaxHealth.text = GameManager.playerTotalHealthManager.ToString();
         this.displayCurrentHealth.text = GameManager.playerCurrentHealthManager.ToString();
@@ -32,12 +32,13 @@ public class PlayerMarker : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        if(other.tag != "Fight") {
+        if(other.tag != "Fight" && other.tag != "Spawner") {
             target = other.transform.position;
             transform.position = target;
             GameManager.targetManager = target;
             distance = Mathf.Sqrt(((previousPosition.x - transform.position.x) * (previousPosition.x - transform.position.x)) + ((previousPosition.y - transform.position.y) * (previousPosition.y - transform.position.y))) / 100;
             distance = Mathf.Ceil(distance);
+            GameManager.distanceTraveledManager = distance;
             GameManager.currentFuel -= (int) distance;
 
             displayCurrentFuel.text = GameManager.currentFuel.ToString();
