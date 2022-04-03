@@ -8,5 +8,6 @@ public class CreateRoom : MonoBehaviour {
 	void Start(){
 		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
 		templates.rooms.Add(this.gameObject);
+		GameManager.roomsManager.Add(this.gameObject);
 	}
 }

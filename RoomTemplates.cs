@@ -21,7 +21,7 @@ public class RoomTemplates : MonoBehaviour {
 	public GameObject ammo;
 	public GameObject fight;
 
-	void Update(){
+	void Update() {
 
 		if(waitTime <= 0 && spawnedBoss == false){
 			for (int i = 0; i < rooms.Count; i++) {
@@ -53,6 +53,11 @@ public class RoomTemplates : MonoBehaviour {
 			}
 		} else {
 			waitTime -= Time.deltaTime;
+		}
+
+		if (!GameManager.roomsSpawned && spawnedBoss) {
+			GameManager.roomsManager = rooms;
+			GameManager.roomsSpawned = true;
 		}
 	} 
 }

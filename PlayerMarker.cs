@@ -2,22 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerMarker : MonoBehaviour {
     public float markerSpeed = 100.0f;
     private Vector3 target;
-    private int maxFuel = 20; // value can change
-    private int currentFuel;
+    private int maxFuel = GameManager.maxFuel; // value can change
+    private int currentF;
     public TextMeshProUGUI displayCurrentFuel;
     public TextMeshProUGUI displayMaxFuel;
+    public TextMeshProUGUI displayCurrentHealth;
+    public TextMeshProUGUI displayMaxHealth;
     private Vector3 previousPosition;
-    private float distance;
+    private float distance; 
 
     void Start() {
-        target = transform.position;
-        previousPosition = transform.position;
+        // target = GameManager.targetManager;
+        transform.position = GameManager.targetManager;
+        previousPosition = GameManager.previousPositionManager;
         this.displayMaxFuel.text = maxFuel.ToString(); // this is just for testing now
-        this.currentFuel = maxFuel; // this is to counteract the collision with 4 spawners and room when spawned
+        this.displayMaxHealth.text = GameManager.playerTotalHealthManager.ToString();
+        this.displayCurrentHealth.text = GameManager.playerCurrentHealthManager.ToString();
     }
 
     void Update() {
@@ -26,24 +31,31 @@ public class PlayerMarker : MonoBehaviour {
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other){
-		target = other.transform.position;
-        transform.position = target;
-        distance = Mathf.Sqrt(((previousPosition.x - transform.position.x) * (previousPosition.x - transform.position.x)) + ((previousPosition.y - transform.position.y) * (previousPosition.y - transform.position.y))) / 100;
-        distance = Mathf.Ceil(distance);
-        currentFuel -= (int) distance;
-        displayCurrentFuel.text = currentFuel.ToString();
+    void OnTriggerEnter2D(Collider2D other) {
+        if(other.tag != "Fight") {
+            target = other.transform.position;
+            transform.position = target;
+            GameManager.targetManager = target;
+            distance = Mathf.Sqrt(((previousPosition.x - transform.position.x) * (previousPosition.x - transform.position.x)) + ((previousPosition.y - transform.position.y) * (previousPosition.y - transform.position.y))) / 100;
+            distance = Mathf.Ceil(distance);
+            GameManager.currentFuel -= (int) distance;
+
+            displayCurrentFuel.text = GameManager.currentFuel.ToString();
+        }
+        //GameManager.currentFuel = currentF;
         // do something in relation to event
-        if(other.CompareTag("MapEvent")) {
+        if(other.CompareTag("Fight")) {
             Destroy(other.gameObject);
+            SceneManager.LoadScene("SpaceInvaders");
         }
 	}
 
      void CastRay() {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
-        if (hit && hit.collider.gameObject.GetComponent<RoomColour>().canBeVisited == true && currentFuel > 0) {
+        if (hit && hit.collider.gameObject.GetComponent<RoomColour>().canBeVisited == true && GameManager.currentFuel > 0) {
             previousPosition = transform.position;
+            GameManager.previousPositionManager = transform.position;
             transform.position = hit.collider.gameObject.transform.position;
         }
     }    

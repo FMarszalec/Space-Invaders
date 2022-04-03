@@ -12,7 +12,9 @@ public class Spawner : MonoBehaviour {
 	void Start(){
 		Destroy(gameObject, waitTime);
 		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
-		Invoke("Spawn", 0.1f);
+		if(!GameManager.roomsSpawned) {
+			Invoke("Spawn", 0.1f);
+		}
 	}
 
 

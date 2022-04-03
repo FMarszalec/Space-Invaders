@@ -1,23 +1,24 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
     public float playerSpeed = 8.0f;
     public Projectile laserPrefab;
     public bool isLaserOnScreen;
-    public int playerTotalHealth = 100;
+    public int playerTotalHealth = GameManager.playerTotalHealthManager;
     public int playerCurrentHealth;
 
     public HealthBar playerHealthBar;
 
     public AmmoBar ammoBar;
-    public int maximumAmmo = 5; // to be changed later
+    public int maximumAmmo = GameManager.maximumAmmoManager; // to be changed later
     public int currentAmmo;
     public float reloadTime = 3.0f;
     private bool isReloading = false;
 
     public void Start() {
-        this.playerCurrentHealth = playerTotalHealth;
+        this.playerCurrentHealth = GameManager.playerCurrentHealthManager;
         this.playerHealthBar.SetTotalHealth(playerTotalHealth);
         this.currentAmmo = this.maximumAmmo;
         this.ammoBar.SetTotalAmmo(maximumAmmo);
@@ -31,12 +32,15 @@ public class Player : MonoBehaviour {
         }
         if(!isReloading) {
             if(currentAmmo > 0) {
-                if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) {
+                if(Input.GetKeyDown(KeyCode.Space)) {
                     Shoot();
                 }
             } else {
                 StartCoroutine(Reload());
             }
+        }
+        if (Input.GetKey(KeyCode.W)) {
+            SceneManager.LoadScene("Map");
         }
     }
 
@@ -70,6 +74,7 @@ public class Player : MonoBehaviour {
     public void takeDamage(int damage) {
         this.playerCurrentHealth -= damage;
         this.playerHealthBar.SetHealth(playerCurrentHealth);
+        GameManager.playerCurrentHealthManager -= damage;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
