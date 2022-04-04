@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerMarker : MonoBehaviour {
     public float markerSpeed = 100.0f;
@@ -15,7 +16,10 @@ public class PlayerMarker : MonoBehaviour {
     public TextMeshProUGUI displayMaxHealth;
     public TextMeshProUGUI displayMaxAmmo;
     private Vector3 previousPosition;
-    private float distance; 
+    private float distance;
+
+    private GameObject upgradeImage;
+    private AllUpgrades upgradeSprites; 
 
     void Start() {
         transform.position = GameManager.targetManager;
@@ -25,6 +29,10 @@ public class PlayerMarker : MonoBehaviour {
         this.displayMaxHealth.text = GameManager.playerTotalHealthManager.ToString();
         this.displayCurrentHealth.text = GameManager.playerCurrentHealthManager.ToString();
         this.displayMaxAmmo.text = GameManager.maximumAmmoManager.ToString();
+        if(GameManager.newUpgrade != null) {
+            upgradeSprites = GameObject.Find("AllUpgrades").GetComponent<AllUpgrades>();
+            ResolveNewUpgrade();
+        }
     }
 
     void Update() {
@@ -68,7 +76,7 @@ public class PlayerMarker : MonoBehaviour {
         }
 	}
 
-     void CastRay() {
+    void CastRay() {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
         if (hit && hit.collider.gameObject.GetComponent<RoomColour>().canBeVisited == true && GameManager.currentFuel > 0) {
@@ -76,5 +84,51 @@ public class PlayerMarker : MonoBehaviour {
             GameManager.previousPositionManager = transform.position;
             transform.position = hit.collider.gameObject.transform.position;
         }
-    }    
+    }
+    void ResolveNewUpgrade() {
+        switch(GameManager.upgradesAcquired.Count) {
+            case 1:
+                upgradeImage = GameObject.Find("Upgrade1");
+                FindSpriteAnEnable(upgradeImage);
+                break;
+            case 2:
+                upgradeImage = GameObject.Find("Upgrade2");
+                FindSpriteAnEnable(upgradeImage);
+                break;
+            case 3:
+                upgradeImage = GameObject.Find("Upgrade3");
+                FindSpriteAnEnable(upgradeImage);
+                break;
+            case 4:
+                upgradeImage = GameObject.Find("Upgrade4");
+                FindSpriteAnEnable(upgradeImage);
+                break;
+            case 5:
+                upgradeImage = GameObject.Find("Upgrade5");
+                FindSpriteAnEnable(upgradeImage);
+                break;
+            case 6:
+                upgradeImage = GameObject.Find("Upgrade6");
+                FindSpriteAnEnable(upgradeImage);
+                break;
+            case 7:
+                upgradeImage = GameObject.Find("Upgrade7");
+                FindSpriteAnEnable(upgradeImage);
+                break;
+            case 8:
+                upgradeImage = GameObject.Find("Upgrade8");
+                FindSpriteAnEnable(upgradeImage);
+                break;
+        }
+    }
+
+    void FindSpriteAnEnable(GameObject upgradeImage) {
+        foreach(Sprite sprite in upgradeSprites.upgradeSprites) {
+                    if(sprite.name == GameManager.newUpgrade) {
+                        upgradeImage.GetComponent<Image>().sprite = sprite;
+                        upgradeImage.GetComponent<Image>().enabled = true;
+                        break;
+                    }
+                }
+    }
 }
