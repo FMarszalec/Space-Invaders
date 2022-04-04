@@ -13,6 +13,7 @@ public class PlayerMarker : MonoBehaviour {
     public TextMeshProUGUI displayMaxFuel;
     public TextMeshProUGUI displayCurrentHealth;
     public TextMeshProUGUI displayMaxHealth;
+    public TextMeshProUGUI displayMaxAmmo;
     private Vector3 previousPosition;
     private float distance; 
 
@@ -23,6 +24,7 @@ public class PlayerMarker : MonoBehaviour {
         this.displayMaxFuel.text = maxFuel.ToString(); // this is just for testing now
         this.displayMaxHealth.text = GameManager.playerTotalHealthManager.ToString();
         this.displayCurrentHealth.text = GameManager.playerCurrentHealthManager.ToString();
+        this.displayMaxAmmo.text = GameManager.maximumAmmoManager.ToString();
     }
 
     void Update() {
@@ -32,7 +34,7 @@ public class PlayerMarker : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        if(other.tag != "Fight" && other.tag != "Spawner") {
+        if(other.tag != "Fight" && other.tag != "Spawner" && other.tag != "Health" && other.tag != "Special") {
             target = other.transform.position;
             transform.position = target;
             GameManager.targetManager = target;
@@ -43,11 +45,26 @@ public class PlayerMarker : MonoBehaviour {
 
             displayCurrentFuel.text = GameManager.currentFuel.ToString();
         }
-        //GameManager.currentFuel = currentF;
-        // do something in relation to event
+
         if(other.CompareTag("Fight")) {
             Destroy(other.gameObject);
             SceneManager.LoadScene("SpaceInvaders");
+        }
+
+        if(other.CompareTag("Health")) {
+            Destroy(other.gameObject);
+            GameManager.playerCurrentHealthManager += (int) (GameManager.playerTotalHealthManager * 0.3);
+            
+            if (GameManager.playerCurrentHealthManager > GameManager.playerTotalHealthManager) {
+                GameManager.playerCurrentHealthManager = GameManager.playerTotalHealthManager;
+            }
+
+            this.displayCurrentHealth.text = GameManager.playerCurrentHealthManager.ToString();
+        }
+
+        if(other.CompareTag("Special")) {
+            Destroy(other.gameObject);
+            SceneManager.LoadScene("Special");
         }
 	}
 

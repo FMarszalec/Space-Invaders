@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
     public void Start() {
         this.playerCurrentHealth = GameManager.playerCurrentHealthManager;
         this.playerHealthBar.SetTotalHealth(playerTotalHealth);
+        this.playerHealthBar.SetHealth(playerCurrentHealth);
         this.currentAmmo = this.maximumAmmo;
         this.ammoBar.SetTotalAmmo(maximumAmmo);
     }
@@ -41,6 +42,9 @@ public class Player : MonoBehaviour {
         }
         if (Input.GetKey(KeyCode.W)) {
             SceneManager.LoadScene("Map");
+        }
+        if (Input.GetKey(KeyCode.Q)) {
+            takeDamage(1);
         }
     }
 

@@ -20,6 +20,7 @@ public class RoomTemplates : MonoBehaviour {
 	public GameObject health;
 	public GameObject ammo;
 	public GameObject fight;
+	public GameObject special;
 
 	void Update() {
 
@@ -37,7 +38,7 @@ public class RoomTemplates : MonoBehaviour {
 					spawnedBoss = true;
 				}
 
-				random = Random.Range(0,10);
+				random = Random.Range(0,12);
 
 				if(random < 2 && i != rooms.Count-1 && i >=5) {
 					Instantiate(health, rooms[i].transform.position, Quaternion.identity);
@@ -48,7 +49,7 @@ public class RoomTemplates : MonoBehaviour {
 				}
 
 				if(random > 6 && i != rooms.Count-1 && i >= 5) {
-					Instantiate(ammo, rooms[i].transform.position, Quaternion.identity);
+					Instantiate(special, rooms[i].transform.position, Quaternion.identity);
 				}
 			}
 		} else {
