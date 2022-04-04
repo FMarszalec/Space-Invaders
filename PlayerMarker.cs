@@ -86,45 +86,47 @@ public class PlayerMarker : MonoBehaviour {
         }
     }
     void ResolveNewUpgrade() {
-        switch(GameManager.upgradesAcquired.Count) {
-            case 1:
-                upgradeImage = GameObject.Find("Upgrade1");
-                FindSpriteAnEnable(upgradeImage);
-                break;
-            case 2:
-                upgradeImage = GameObject.Find("Upgrade2");
-                FindSpriteAnEnable(upgradeImage);
-                break;
-            case 3:
-                upgradeImage = GameObject.Find("Upgrade3");
-                FindSpriteAnEnable(upgradeImage);
-                break;
-            case 4:
-                upgradeImage = GameObject.Find("Upgrade4");
-                FindSpriteAnEnable(upgradeImage);
-                break;
-            case 5:
-                upgradeImage = GameObject.Find("Upgrade5");
-                FindSpriteAnEnable(upgradeImage);
-                break;
-            case 6:
-                upgradeImage = GameObject.Find("Upgrade6");
-                FindSpriteAnEnable(upgradeImage);
-                break;
-            case 7:
-                upgradeImage = GameObject.Find("Upgrade7");
-                FindSpriteAnEnable(upgradeImage);
-                break;
-            case 8:
-                upgradeImage = GameObject.Find("Upgrade8");
-                FindSpriteAnEnable(upgradeImage);
-                break;
+        for (int i = 0; i < GameManager.upgradesAcquired.Count; i++) {
+            switch(i) {
+                case 0:
+                    upgradeImage = GameObject.Find("Upgrade1");
+                    FindSpriteAnEnable(upgradeImage, 0);
+                    break;
+                case 1:
+                    upgradeImage = GameObject.Find("Upgrade2");
+                    FindSpriteAnEnable(upgradeImage, 1);
+                    break;
+                case 2:
+                    upgradeImage = GameObject.Find("Upgrade3");
+                    FindSpriteAnEnable(upgradeImage, 2);
+                    break;
+                case 3:
+                    upgradeImage = GameObject.Find("Upgrade4");
+                    FindSpriteAnEnable(upgradeImage, 3);
+                    break;
+                case 4:
+                    upgradeImage = GameObject.Find("Upgrade5");
+                    FindSpriteAnEnable(upgradeImage, 4);
+                    break;
+                case 5:
+                    upgradeImage = GameObject.Find("Upgrade6");
+                    FindSpriteAnEnable(upgradeImage, 5);
+                    break;
+                case 6:
+                    upgradeImage = GameObject.Find("Upgrade7");
+                    FindSpriteAnEnable(upgradeImage, 6);
+                    break;
+                case 7:
+                    upgradeImage = GameObject.Find("Upgrade8");
+                    FindSpriteAnEnable(upgradeImage, 7);
+                    break;
+            }
         }
     }
 
-    void FindSpriteAnEnable(GameObject upgradeImage) {
+    void FindSpriteAnEnable(GameObject upgradeImage, int index) {
         foreach(Sprite sprite in upgradeSprites.upgradeSprites) {
-                    if(sprite.name == GameManager.newUpgrade) {
+                    if(sprite.name == GameManager.upgradesAcquired[index]) {
                         upgradeImage.GetComponent<Image>().sprite = sprite;
                         upgradeImage.GetComponent<Image>().enabled = true;
                         break;

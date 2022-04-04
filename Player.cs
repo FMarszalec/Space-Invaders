@@ -23,6 +23,12 @@ public class Player : MonoBehaviour {
         this.playerHealthBar.SetHealth(playerCurrentHealth);
         this.currentAmmo = this.maximumAmmo;
         this.ammoBar.SetTotalAmmo(maximumAmmo);
+        if (GameManager.upgradesAcquired.Contains("Red")) {
+            this.playerSpeed *= 2;
+        }
+        if (GameManager.upgradesAcquired.Contains("Blue")) {
+            this.reloadTime = 1.0f;
+        }
     }
 
     public void Update() {
@@ -49,7 +55,7 @@ public class Player : MonoBehaviour {
     }
 
     private void Shoot() {
-        if (!isLaserOnScreen) {
+        if (!isLaserOnScreen && !GameManager.upgradesAcquired.Contains("Yellow")) {
             Projectile projectile = Instantiate(this.laserPrefab, this.transform.position, Quaternion.identity);
             projectile.projectileDestroyed += LaserDestroyed;
             isLaserOnScreen = true;
