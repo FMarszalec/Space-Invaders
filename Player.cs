@@ -55,7 +55,7 @@ public class Player : MonoBehaviour {
     }
 
     private void Shoot() {
-        if (!isLaserOnScreen && !GameManager.upgradesAcquired.Contains("Yellow")) {
+        if (!isLaserOnScreen) {
             Projectile projectile = Instantiate(this.laserPrefab, this.transform.position, Quaternion.identity);
             projectile.projectileDestroyed += LaserDestroyed;
             isLaserOnScreen = true;

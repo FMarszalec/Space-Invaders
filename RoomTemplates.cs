@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoomTemplates : MonoBehaviour {
 
@@ -60,5 +61,17 @@ public class RoomTemplates : MonoBehaviour {
 			GameManager.roomsManager = rooms;
 			GameManager.roomsSpawned = true;
 		}
-	} 
+
+		if(GameManager.roomsSpawned && spawnedBoss && GameManager.roomsManager.Count < 12) {
+			GameManager.roomsSpawned = false;
+			DeleteAll();
+			SceneManager.LoadScene("Map");
+		}
+	}
+
+	public void DeleteAll(){
+         foreach (GameObject o in Object.FindObjectsOfType<GameObject>()) {
+             Destroy(o);
+         }
+     } 
 }

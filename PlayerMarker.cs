@@ -74,6 +74,11 @@ public class PlayerMarker : MonoBehaviour {
             Destroy(other.gameObject);
             SceneManager.LoadScene("Special");
         }
+
+        if(other.CompareTag("Boss")) {
+            Destroy(other.gameObject);
+            SceneManager.LoadScene("BossFight");
+        }
 	}
 
     void CastRay() {
