@@ -52,6 +52,7 @@ public class Player : MonoBehaviour {
         if (Input.GetKey(KeyCode.Q)) {
             takeDamage(1);
         }
+
     }
 
     private void Shoot() {
@@ -89,7 +90,13 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.layer == LayerMask.NameToLayer("Missile")) {
-            takeDamage(20); // this will be changed to dynamic values based on invader
+            if (GameManager.upgradesAcquired.Contains("Yellow")) {
+                takeDamage(15);
+            }
+            else takeDamage(20);
+        }
+        if(this.playerCurrentHealth <= 0 || other.gameObject.layer == LayerMask.NameToLayer("Invader")) {
+            SceneManager.LoadScene("GameOver");
         }
     }
 }

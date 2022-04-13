@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Invaders : MonoBehaviour {
     public int rows = 5;
@@ -50,6 +51,10 @@ public class Invaders : MonoBehaviour {
             } else if (direction == Vector3.left && invader.position.x <= (leftEdge.x + 1.0f)) {
                 AdvanceRow();
             }
+        }
+
+        if(aliveInvaders <= 0) {
+            SceneManager.LoadScene("Map");
         }
     }
 

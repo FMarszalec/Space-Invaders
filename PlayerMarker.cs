@@ -25,7 +25,7 @@ public class PlayerMarker : MonoBehaviour {
         transform.position = GameManager.targetManager;
         previousPosition = GameManager.previousPositionManager;
         GameManager.currentFuel += (int) GameManager.distanceTraveledManager;
-        this.displayMaxFuel.text = maxFuel.ToString(); // this is just for testing now
+        this.displayMaxFuel.text = maxFuel.ToString();
         this.displayMaxHealth.text = GameManager.playerTotalHealthManager.ToString();
         this.displayCurrentHealth.text = GameManager.playerCurrentHealthManager.ToString();
         this.displayMaxAmmo.text = GameManager.maximumAmmoManager.ToString();
